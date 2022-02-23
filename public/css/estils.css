@@ -1,0 +1,14 @@
+body {
+    margin: 5% 10%;
+    background-color: #f2b852;
+}
+
+h1, h2, h3 {
+    color: #ffff66;
+    border: solid #ffff66 1px;
+}
+
+.imatge{
+    width: 200px;
+    margin: 10px;
+}
