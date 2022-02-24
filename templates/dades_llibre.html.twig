@@ -1,0 +1,7 @@
+<ul>
+<li><strong>{{ llibre.titol | upper }}</strong></li>
+<li><i>Autor</i>: {{ llibre.autor }}</li>
+<li>Pàgines: {{ llibre.pagines }}</li>
+<br><br>
+<img class="imatgePortada" src="{{ asset('img/'~llibre.imatge) }}"</img>
+</ul>

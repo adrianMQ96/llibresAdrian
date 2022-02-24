@@ -3,7 +3,8 @@
 {% block body %}
 <h1>Fitxa del Llibre</h1>
 {% if llibre %}
-<img class="imatge" src="{{ asset('img/llibreFound.png') }}" />
+{{ include ('dades_llibre.html.twig', { 'llibre':
+llibre }) }}
 {% else %}
 <p>Llibre no trobat</p>
 <img class="imatge" src="{{ asset('img/llibreNotFound.png') }}" />

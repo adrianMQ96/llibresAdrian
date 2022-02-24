@@ -7,4 +7,13 @@
 <p>Projecte Symfony 2n DAW</p>
 <p>Curs 21/22</p>
 <a href="/llibre/A111B4"><img class="imatge" src="{{ asset('img/imatgeInici.png') }}"/></a>
+{% if llibres%}
+{% for llibre in llibres%}
+<ul>
+<li>
+<a href ="{{ path('fitxa_llibre', {'isbn': llibre.isbn }) }}">{{llibre.titol}}</a>
+</li>
+</ul>
+{%endfor%}
+{%endif%}
 {% endblock %}
