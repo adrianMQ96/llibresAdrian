@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\LlibreRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LlibreRepository::class)]
@@ -19,6 +20,7 @@ class Llibre
     private $autor;
 
     #[ORM\Column(type: 'integer')]
+    #[Assert\Range(min: 100, minMessage:"El llibre deu de tindre 100 pagines minim")]
     private $pagines;
 
     #[ORM\Column(type: 'string', length: 255)]

@@ -11,7 +11,7 @@
 {% for llibre in llibres%}
 <ul>
 <li>
-<a href ="{{ path('fitxa_llibre', {'isbn': llibre.isbn }) }}">{{llibre.titol}}</a>
+<a href ="{{ path('fitxa_llibre', {'isbn': llibre.isbn }) }}">{{llibre.titol}}</a> <a href ="{{ path('editar_llibre', {'isbn': llibre.isbn}) }}"><img class="icon" src="{{ asset('img/editar.png') }}"/></a> 
 </li>
 </ul>
 {%endfor%}

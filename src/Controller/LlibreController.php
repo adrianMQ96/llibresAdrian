@@ -6,8 +6,95 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Service\DBProvaLlibres;
 use App\Entity\Llibre;
 use App\Entity\Editorial;
+use App\Form\LlibreNouType;
+use App\Form\LlibreEditaType;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 class LlibreController extends AbstractController{
+
+    /**
+    * @Route("/llibre/editar/{isbn}", name="editar_llibre")
+    */
+    public function editar(Request $request, $isbn, ManagerRegistry $doctrine)
+    {
+        $nomFitxer ="";
+        $repositori = $doctrine->getRepository(Llibre::class);
+        $llibre = $repositori->find($isbn);
+        $formulari = $this->createForm(LlibreEditaType::class, $llibre);
+        $formulari->handleRequest($request);
+        if ($formulari->isSubmitted() && $formulari->isValid())
+        {
+            $fitxer = $formulari->get('imatge')->getData();
+            if ($fitxer) {
+                $nomFitxer = $fitxer->getClientOriginalName();
+                $directori = $this->getParameter('kernel.project_dir')."/public/img/";
+                try {
+                $fitxer->move($directori,$nomFitxer);
+                } catch (FileException $e) {
+                
+                }
+                $llibre->setImatge($nomFitxer);
+            } else {
+                $llibre->setImatge('default.png');
+            }
+            $llibre->setIsbn($formulari->get('isbn')->getData());
+            $llibre->setTitol($formulari->get('titol')->getData());
+            $llibre->setAutor($formulari->get('autor')->getData());
+            $llibre->setPagines($formulari->get('pagines')->getData());
+            $llibre->setEditorial($formulari->get('editorial')->getData());
+
+            $entityManager = $doctrine->getManager();
+            $entityManager->persist($llibre);
+            $entityManager->flush();
+            return $this->redirectToRoute('inici');
+        }
+        return $this->render('nou.html.twig', array(
+            'formulari' => $formulari->createView()));
+    }
+
+    /**
+    * @Route("/llibre/nou", name="nou_llibre")
+    */
+    public function nou(Request $request, ManagerRegistry $doctrine)
+    {
+        $llibre = new Llibre();
+        $formulari = $this->createForm(LlibreNouType::class, $llibre);
+        $formulari->handleRequest($request);
+        if ($formulari->isSubmitted() && $formulari->isValid())
+        {
+            $fitxer = $formulari->get('imatge')->getData();
+            if ($fitxer) {
+                $nomFitxer = $fitxer->getClientOriginalName();
+                $directori = $this->getParameter('kernel.project_dir')."/public/img/";
+                try {
+                $fitxer->move($directori,$nomFitxer);
+                } catch (FileException $e) {
+                
+                }
+                $llibre->setImatge($nomFitxer);
+            } else {
+                $llibre->setImatge('default.png');
+            }
+            $llibre->setIsbn($formulari->get('isbn')->getData());
+            $llibre->setTitol($formulari->get('titol')->getData());
+            $llibre->setAutor($formulari->get('autor')->getData());
+            $llibre->setPagines($formulari->get('pagines')->getData());
+            $llibre->setEditorial($formulari->get('editorial')->getData());
+
+            $entityManager = $doctrine->getManager();
+            $entityManager->persist($llibre);
+            $entityManager->flush();
+            return $this->redirectToRoute('inici');
+        }
+        return $this->render('nou.html.twig', array(
+            'formulari' => $formulari->createView()));
+    }
 
     /**
     * @Route("/llibre/pagines/{pagines}", name="filtrar_pagines")

@@ -10,5 +10,5 @@ llibre }) }}
 <img class="imatge" src="{{ asset('img/llibreNotFound.png') }}" />
 {% endif %}
 <br/>
-<a href="/">Tornar a l'inici<img class="home" src="{{ asset('img/home.png') }}"></a>
+<a href="/">Tornar a l'inici<img class="home" src="{{ asset('img/home.png') }}"></a> <a href ="{{ path('editar_llibre', {'isbn': llibre.isbn}) }}"><img class="icon" src="{{ asset('img/editar.png') }}"/></a> 
 {% endblock %}
