@@ -21,7 +21,9 @@
     </head>
     <body>
         {% block menu %}
-            <p><a href ="{{ path('inici') }}">Inici</a> - <a href ="{{ path('nou_llibre') }}">Llibre nou</a></p>
+        {% if app.user %}
+            <p><a href ="{{ path('inici') }}">Inici</a> - <a href ="{{ path('nou_llibre') }}">Llibre nou</a> - Benvingut/a, {{ app.user.username }} - <a href ="{{ path('logout') }}">Tancar sessió</a></p>
+        {% endif %}
         {% endblock %}
         {% block body %}{% endblock %}
     </body>
